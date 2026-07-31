@@ -254,7 +254,9 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBox x:Name="OutputTextBox" Style="{StaticResource ModernTextBox}" />
+                        <TextBox x:Name="OutputTextBox"
+                                 Style="{StaticResource ModernTextBox}"
+                                 ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}" />
                         <Button Grid.Column="1"
                                 Margin="9,0,0,0"
                                 Click="BrowseButton_Click"
