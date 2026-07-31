@@ -220,7 +220,7 @@ namespace FeishuMinutes
                     request.MaxCharacters,
                     request.MaxDurationMilliseconds);
 
-                string outputDirectory = Path.Combine(Path.GetFullPath(request.OutputRoot), token);
+                string outputDirectory = Path.GetFullPath(request.OutputRoot);
                 Directory.CreateDirectory(outputDirectory);
                 string baseName = request.NameByTitle && !string.IsNullOrWhiteSpace(title)
                     ? SafeFileName(title)

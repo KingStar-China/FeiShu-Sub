@@ -181,7 +181,7 @@
                 <StackPanel Grid.Row="5" Margin="4,0,0,0">
                     <TextBlock FontSize="11"
                                Foreground="{DynamicResource SubtleTextBrush}"
-                               Text="v1.1.0 · Windows 11 x64" />
+                               Text="v1.1.1 · Windows 11 x64" />
                     <TextBlock Margin="0,3,0,0"
                                FontSize="11"
                                Foreground="{DynamicResource SubtleTextBrush}"

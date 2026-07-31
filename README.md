@@ -14,7 +14,7 @@
 
 从 [GitHub Releases](https://github.com/KingStar-China/FeiShu-Sub/releases/latest) 下载 Windows 11 x64 ZIP，解压后双击 `妙记字幕下载器.exe`。
 
-默认将字幕保存到 EXE 同目录下的 `minutes/<token>/`。如果该目录中已有 `transcript.txt`，程序还会生成带说话人前缀的 `_speaker.srt`。
+默认将字幕保存到 EXE 同目录下的 `minutes/`。SRT 直接写入所选保存位置，不再额外建立 token 子目录；如果该目录中已有 `transcript.txt`，程序还会生成带说话人前缀的 `_speaker.srt`。
 
 ## 构建
 
