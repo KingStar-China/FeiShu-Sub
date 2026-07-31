@@ -5,34 +5,52 @@
              ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <SolidColorBrush x:Key="WindowBrush" Color="#F3F3F3" />
+        <SolidColorBrush x:Key="SidebarBrush" Color="#FAFAFA" />
         <SolidColorBrush x:Key="CardBrush" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="ControlBackgroundBrush" Color="#FBFBFB" />
+        <SolidColorBrush x:Key="LogBackgroundBrush" Color="#FBFBFB" />
         <SolidColorBrush x:Key="BorderBrush" Color="#E1E1E1" />
+        <SolidColorBrush x:Key="ControlBorderBrush" Color="#BDBDBD" />
+        <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#FBFBFB" />
+        <SolidColorBrush x:Key="ButtonBorderBrush" Color="#C7C7C7" />
+        <SolidColorBrush x:Key="ButtonHoverBrush" Color="#F3F3F3" />
+        <SolidColorBrush x:Key="ButtonPressedBrush" Color="#E9E9E9" />
         <SolidColorBrush x:Key="TextBrush" Color="#1B1B1B" />
         <SolidColorBrush x:Key="MutedTextBrush" Color="#606060" />
         <SolidColorBrush x:Key="SubtleTextBrush" Color="#858585" />
+        <SolidColorBrush x:Key="LogTextBrush" Color="#303030" />
         <SolidColorBrush x:Key="AccentBrush" Color="#0067C0" />
         <SolidColorBrush x:Key="AccentHoverBrush" Color="#1975C5" />
         <SolidColorBrush x:Key="AccentPressedBrush" Color="#005A9E" />
+        <SolidColorBrush x:Key="AccentForegroundBrush" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="SuccessBrush" Color="#0F7B0F" />
+        <SolidColorBrush x:Key="WarningBrush" Color="#9D5D00" />
+        <SolidColorBrush x:Key="DangerBrush" Color="#C42B1C" />
+        <SolidColorBrush x:Key="StatusCardBrush" Color="#EEF6FC" />
+        <SolidColorBrush x:Key="PendingBadgeBrush" Color="#E9E9E9" />
+        <SolidColorBrush x:Key="ActiveBadgeBrush" Color="#DCECF8" />
+        <SolidColorBrush x:Key="DoneBadgeBrush" Color="#DDF2DD" />
 
         <Style TargetType="{x:Type Window}">
             <Setter Property="FontFamily" Value="Segoe UI Variable Text, Microsoft YaHei UI" />
-            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
-            <Setter Property="Background" Value="{StaticResource WindowBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            <Setter Property="Background" Value="{DynamicResource WindowBrush}" />
             <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
             <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
         </Style>
 
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="TextWrapping" Value="NoWrap" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
         </Style>
 
         <Style x:Key="ModernTextBox" TargetType="{x:Type TextBox}">
             <Setter Property="Height" Value="40" />
             <Setter Property="Padding" Value="11,7" />
             <Setter Property="FontSize" Value="14" />
-            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
-            <Setter Property="Background" Value="#FBFBFB" />
-            <Setter Property="BorderBrush" Value="#BDBDBD" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderBrush}" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Template">
@@ -49,7 +67,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+                                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
                                 <Setter TargetName="OuterBorder" Property="BorderThickness" Value="1,1,1,2" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
@@ -66,9 +84,9 @@
             <Setter Property="MinWidth" Value="82" />
             <Setter Property="Padding" Value="16,0" />
             <Setter Property="FontSize" Value="14" />
-            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
-            <Setter Property="Background" Value="#FBFBFB" />
-            <Setter Property="BorderBrush" Value="#C7C7C7" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
@@ -85,10 +103,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="ButtonBorder" Property="Background" Value="#F3F3F3" />
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource ButtonHoverBrush}" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="ButtonBorder" Property="Background" Value="#E9E9E9" />
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource ButtonPressedBrush}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Opacity" Value="0.45" />
@@ -106,8 +124,8 @@
             <Setter Property="Padding" Value="20,0" />
             <Setter Property="FontSize" Value="15" />
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource AccentForegroundBrush}" />
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
@@ -122,10 +140,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource AccentHoverBrush}" />
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource AccentHoverBrush}" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource AccentPressedBrush}" />
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource AccentPressedBrush}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Opacity" Value="0.45" />
@@ -139,7 +157,13 @@
 
         <Style TargetType="{x:Type CheckBox}">
             <Setter Property="FontSize" Value="14" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="{x:Type ProgressBar}">
+            <Setter Property="Foreground" Value="{DynamicResource AccentBrush}" />
+            <Setter Property="Background" Value="{DynamicResource PendingBadgeBrush}" />
         </Style>
     </Application.Resources>
 </Application>

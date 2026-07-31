@@ -5,6 +5,7 @@
 ## 特点
 
 - 原生 C# / WPF，不携带 Python、Playwright、Node.js 或浏览器运行时。
+- 自动跟随 Windows 11 应用深浅色模式，切换系统主题后无需重启。
 - 使用普通 HTTPS 请求建立匿名分享会话，不读取本机 Chrome Profile。
 - 保留妙记标题命名、每行字数/时长调整、取消下载、运行日志和说话人字幕映射。
 - 目标框架为 Windows 11 已内置的 .NET Framework 4.8.1。

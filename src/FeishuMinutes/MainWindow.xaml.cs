@@ -9,22 +9,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
 using Forms = System.Windows.Forms;
 
 namespace FeishuMinutes
 {
     public partial class MainWindow : Window
     {
-        private static readonly Brush AccentBrush = new SolidColorBrush(Color.FromRgb(0, 103, 192));
-        private static readonly Brush SuccessBrush = new SolidColorBrush(Color.FromRgb(15, 123, 15));
-        private static readonly Brush WarningBrush = new SolidColorBrush(Color.FromRgb(157, 93, 0));
-        private static readonly Brush DangerBrush = new SolidColorBrush(Color.FromRgb(196, 43, 28));
-        private static readonly Brush MutedBrush = new SolidColorBrush(Color.FromRgb(96, 96, 96));
-        private static readonly Brush PendingBadgeBrush = new SolidColorBrush(Color.FromRgb(233, 233, 233));
-        private static readonly Brush ActiveBadgeBrush = new SolidColorBrush(Color.FromRgb(220, 236, 248));
-        private static readonly Brush DoneBadgeBrush = new SolidColorBrush(Color.FromRgb(221, 242, 221));
-
         private readonly MinutesDownloader _downloader = new MinutesDownloader();
         private CancellationTokenSource _cancellation;
         private string _lastOutputDirectory;
@@ -33,6 +23,7 @@ namespace FeishuMinutes
         public MainWindow()
         {
             InitializeComponent();
+            ThemeManager.ThemeChanged += ThemeManager_ThemeChanged;
             OutputTextBox.Text = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "minutes");
             AppendLog("准备就绪。请粘贴飞书妙记分享链接。");
             UrlTextBox.Focus();
@@ -40,9 +31,24 @@ namespace FeishuMinutes
 
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
+            ApplyWindowChrome();
+        }
+
+        private void ThemeManager_ThemeChanged(object sender, EventArgs e)
+        {
+            ApplyWindowChrome();
+        }
+
+        private void ApplyWindowChrome()
+        {
             IntPtr handle = new WindowInteropHelper(this).Handle;
+            if (handle == IntPtr.Zero)
+            {
+                return;
+            }
+
             SetDwmAttribute(handle, 33, 2); // DWMWA_WINDOW_CORNER_PREFERENCE
-            SetDwmAttribute(handle, 20, 0); // DWMWA_USE_IMMERSIVE_DARK_MODE
+            SetDwmAttribute(handle, 20, ThemeManager.IsDark ? 1 : 0); // DWMWA_USE_IMMERSIVE_DARK_MODE
             SetDwmAttribute(handle, 38, 2); // DWMWA_SYSTEMBACKDROP_TYPE
         }
 
@@ -77,7 +83,7 @@ namespace FeishuMinutes
             {
             }
 
-            SetStatus("剪贴板为空", "请先复制飞书妙记分享链接", WarningBrush);
+            SetStatus("剪贴板为空", "请先复制飞书妙记分享链接", "WarningBrush");
         }
 
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
@@ -119,7 +125,7 @@ namespace FeishuMinutes
 
             if (!MinutesDownloader.TryParseShareUrl(UrlTextBox.Text, out _, out _))
             {
-                SetStatus("链接格式不正确", "需要包含 /minutes/<token>", DangerBrush);
+                SetStatus("链接格式不正确", "需要包含 /minutes/<token>", "DangerBrush");
                 MessageBox.Show(
                     this,
                     "请粘贴完整的飞书妙记分享链接，例如：\nhttps://example.feishu.cn/minutes/xxxxxxxx",
@@ -133,7 +139,7 @@ namespace FeishuMinutes
             string outputRoot = Environment.ExpandEnvironmentVariables(OutputTextBox.Text.Trim());
             if (outputRoot.Length == 0)
             {
-                SetStatus("请选择保存位置", "字幕需要一个输出目录", DangerBrush);
+                SetStatus("请选择保存位置", "字幕需要一个输出目录", "DangerBrush");
                 return;
             }
 
@@ -178,7 +184,7 @@ namespace FeishuMinutes
             SetRunning(true);
             ClearLog();
             AppendLog("正在启动原生 HTTP 下载核心...");
-            SetStatus("正在连接妙记", "建立匿名分享会话", AccentBrush);
+            SetStatus("正在连接妙记", "建立匿名分享会话", "AccentBrush");
             SetStep(1);
 
             try
@@ -189,8 +195,8 @@ namespace FeishuMinutes
                 ProgressBar.IsIndeterminate = false;
                 ProgressBar.Value = 100;
                 LogStateText.Text = "已完成";
-                LogStateText.Foreground = SuccessBrush;
-                SetStatus("字幕下载完成", result.SubtitleLineCount + " 行 SRT 已保存到本地", SuccessBrush);
+                LogStateText.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "SuccessBrush");
+                SetStatus("字幕下载完成", result.SubtitleLineCount + " 行 SRT 已保存到本地", "SuccessBrush");
                 SetStep(3);
                 AppendLog(string.Empty);
                 AppendLog("完成：" + result.WordCount + " 个词/短语，" + result.SubtitleLineCount + " 行字幕。");
@@ -201,8 +207,8 @@ namespace FeishuMinutes
                 ProgressBar.IsIndeterminate = false;
                 ProgressBar.Value = 0;
                 LogStateText.Text = "已取消";
-                LogStateText.Foreground = WarningBrush;
-                SetStatus("下载已取消", "可以修改设置后重新开始", WarningBrush);
+                LogStateText.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "WarningBrush");
+                SetStatus("下载已取消", "可以修改设置后重新开始", "WarningBrush");
                 AppendLog(string.Empty);
                 AppendLog("已取消本次下载。");
             }
@@ -211,8 +217,8 @@ namespace FeishuMinutes
                 ProgressBar.IsIndeterminate = false;
                 ProgressBar.Value = 0;
                 LogStateText.Text = "失败";
-                LogStateText.Foreground = DangerBrush;
-                SetStatus("下载失败", "请查看右侧运行记录", DangerBrush);
+                LogStateText.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "DangerBrush");
+                SetStatus("下载失败", "请查看右侧运行记录", "DangerBrush");
                 AppendLog(string.Empty);
                 AppendLog("[!] " + exception.Message);
                 MessageBox.Show(this, exception.Message, "下载失败", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -227,7 +233,7 @@ namespace FeishuMinutes
 
         private void OnDownloadProgress(DownloadProgress update)
         {
-            SetStatus(update.Status, update.Detail, update.Step >= 3 ? SuccessBrush : AccentBrush);
+            SetStatus(update.Status, update.Detail, update.Step >= 3 ? "SuccessBrush" : "AccentBrush");
             SetStep(update.Step);
             if (!string.IsNullOrWhiteSpace(update.LogLine))
             {
@@ -242,7 +248,7 @@ namespace FeishuMinutes
                 return;
             }
 
-            SetStatus("正在取消", "等待当前网络请求安全退出", WarningBrush);
+            SetStatus("正在取消", "等待当前网络请求安全退出", "WarningBrush");
             _cancellation.Cancel();
         }
 
@@ -289,15 +295,15 @@ namespace FeishuMinutes
                 ProgressBar.Value = 0;
                 ProgressBar.IsIndeterminate = true;
                 LogStateText.Text = "运行中";
-                LogStateText.Foreground = AccentBrush;
+                LogStateText.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "AccentBrush");
             }
         }
 
-        private void SetStatus(string title, string detail, Brush colour)
+        private void SetStatus(string title, string detail, string brushKey)
         {
             StatusTitle.Text = title;
             StatusDetail.Text = detail;
-            StatusDot.Fill = colour;
+            StatusDot.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, brushKey);
         }
 
         private void SetStep(int activeStep)
@@ -311,20 +317,20 @@ namespace FeishuMinutes
         {
             if (step < activeStep)
             {
-                badge.Background = DoneBadgeBrush;
-                text.Foreground = SuccessBrush;
+                badge.SetResourceReference(System.Windows.Controls.Border.BackgroundProperty, "DoneBadgeBrush");
+                text.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "SuccessBrush");
                 text.FontWeight = FontWeights.Normal;
             }
             else if (step == activeStep)
             {
-                badge.Background = ActiveBadgeBrush;
-                text.Foreground = AccentBrush;
+                badge.SetResourceReference(System.Windows.Controls.Border.BackgroundProperty, "ActiveBadgeBrush");
+                text.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "AccentBrush");
                 text.FontWeight = FontWeights.SemiBold;
             }
             else
             {
-                badge.Background = PendingBadgeBrush;
-                text.Foreground = MutedBrush;
+                badge.SetResourceReference(System.Windows.Controls.Border.BackgroundProperty, "PendingBadgeBrush");
+                text.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "MutedTextBrush");
                 text.FontWeight = FontWeights.Normal;
             }
         }
@@ -365,6 +371,12 @@ namespace FeishuMinutes
             }
 
             _cancellation?.Cancel();
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            ThemeManager.ThemeChanged -= ThemeManager_ThemeChanged;
+            base.OnClosed(e);
         }
 
         [DllImport("dwmapi.dll")]

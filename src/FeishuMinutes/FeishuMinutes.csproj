@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="MinutesDownloader.cs" />
     <Compile Include="Models.cs" />
+    <Compile Include="ThemeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
 

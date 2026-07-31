@@ -8,7 +8,7 @@
         MinWidth="880"
         MinHeight="630"
         WindowStartupLocation="CenterScreen"
-        Background="{StaticResource WindowBrush}"
+        Background="{DynamicResource WindowBrush}"
         Closing="Window_Closing"
         SourceInitialized="Window_SourceInitialized">
     <Grid>
@@ -18,8 +18,8 @@
         </Grid.ColumnDefinitions>
 
         <Border Grid.Column="0"
-                Background="#FAFAFA"
-                BorderBrush="{StaticResource BorderBrush}"
+                Background="{DynamicResource SidebarBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
                 BorderThickness="0,0,1,0">
             <Grid Margin="20,24,20,18">
                 <Grid.RowDefinitions>
@@ -40,12 +40,12 @@
                             Height="34"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Background="{StaticResource AccentBrush}"
+                            Background="{DynamicResource AccentBrush}"
                             CornerRadius="5">
                         <StackPanel VerticalAlignment="Center">
-                            <Rectangle Width="20" Height="3" Fill="White" Margin="0,0,0,4" />
-                            <Rectangle Width="15" Height="3" Fill="White" Margin="0,0,0,4" />
-                            <Rectangle Width="20" Height="3" Fill="White" />
+                            <Rectangle Width="20" Height="3" Fill="{DynamicResource AccentForegroundBrush}" Margin="0,0,0,4" />
+                            <Rectangle Width="15" Height="3" Fill="{DynamicResource AccentForegroundBrush}" Margin="0,0,0,4" />
+                            <Rectangle Width="20" Height="3" Fill="{DynamicResource AccentForegroundBrush}" />
                         </StackPanel>
                     </Border>
                     <StackPanel Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center">
@@ -53,7 +53,7 @@
                         <TextBlock Margin="0,2,0,0"
                                    FontFamily="Segoe UI"
                                    FontSize="11"
-                                   Foreground="{StaticResource SubtleTextBrush}"
+                                   Foreground="{DynamicResource SubtleTextBrush}"
                                    Text="Native for Windows 11" />
                     </StackPanel>
                 </Grid>
@@ -61,7 +61,7 @@
                 <TextBlock Grid.Row="1"
                            Margin="4,0,0,9"
                            FontSize="12"
-                           Foreground="{StaticResource MutedTextBrush}"
+                           Foreground="{DynamicResource MutedTextBrush}"
                            Text="下载流程" />
 
                 <StackPanel Grid.Row="2">
@@ -75,13 +75,13 @@
                                 Height="24"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Background="#DCECF8"
+                                Background="{DynamicResource ActiveBadgeBrush}"
                                 CornerRadius="12">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="12"
                                        FontWeight="SemiBold"
-                                       Foreground="{StaticResource AccentBrush}"
+                                       Foreground="{DynamicResource AccentBrush}"
                                        Text="1" />
                         </Border>
                         <TextBlock x:Name="Step1Text"
@@ -89,7 +89,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="14"
                                    FontWeight="SemiBold"
-                                   Foreground="{StaticResource AccentBrush}"
+                                   Foreground="{DynamicResource AccentBrush}"
                                    Text="粘贴妙记链接" />
                     </Grid>
                     <Grid Height="42">
@@ -102,20 +102,20 @@
                                 Height="24"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Background="#E9E9E9"
+                                Background="{DynamicResource PendingBadgeBrush}"
                                 CornerRadius="12">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="12"
                                        FontWeight="SemiBold"
-                                       Foreground="{StaticResource MutedTextBrush}"
+                                       Foreground="{DynamicResource MutedTextBrush}"
                                        Text="2" />
                         </Border>
                         <TextBlock x:Name="Step2Text"
                                    Grid.Column="1"
                                    VerticalAlignment="Center"
                                    FontSize="14"
-                                   Foreground="{StaticResource MutedTextBrush}"
+                                   Foreground="{DynamicResource MutedTextBrush}"
                                    Text="提取逐句字幕" />
                     </Grid>
                     <Grid Height="42">
@@ -128,20 +128,20 @@
                                 Height="24"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Background="#E9E9E9"
+                                Background="{DynamicResource PendingBadgeBrush}"
                                 CornerRadius="12">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="12"
                                        FontWeight="SemiBold"
-                                       Foreground="{StaticResource MutedTextBrush}"
+                                       Foreground="{DynamicResource MutedTextBrush}"
                                        Text="3" />
                         </Border>
                         <TextBlock x:Name="Step3Text"
                                    Grid.Column="1"
                                    VerticalAlignment="Center"
                                    FontSize="14"
-                                   Foreground="{StaticResource MutedTextBrush}"
+                                   Foreground="{DynamicResource MutedTextBrush}"
                                    Text="打开输出文件" />
                     </Grid>
                 </StackPanel>
@@ -149,7 +149,7 @@
                 <Border Grid.Row="3"
                         Margin="0,24,0,0"
                         Padding="13,12"
-                        Background="#EEF6FC"
+                        Background="{DynamicResource StatusCardBrush}"
                         CornerRadius="5">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -162,7 +162,7 @@
                                  Margin="0,5,0,0"
                                  HorizontalAlignment="Left"
                                  VerticalAlignment="Top"
-                                 Fill="{StaticResource AccentBrush}" />
+                                 Fill="{DynamicResource AccentBrush}" />
                         <StackPanel Grid.Column="1">
                             <TextBlock x:Name="StatusTitle"
                                        FontSize="13"
@@ -171,7 +171,7 @@
                             <TextBlock x:Name="StatusDetail"
                                        Margin="0,4,0,0"
                                        FontSize="11"
-                                       Foreground="{StaticResource MutedTextBrush}"
+                                       Foreground="{DynamicResource MutedTextBrush}"
                                        Text="粘贴飞书妙记分享链接即可开始"
                                        TextWrapping="Wrap" />
                         </StackPanel>
@@ -180,11 +180,11 @@
 
                 <StackPanel Grid.Row="5" Margin="4,0,0,0">
                     <TextBlock FontSize="11"
-                               Foreground="{StaticResource SubtleTextBrush}"
-                               Text="v1.0.0 · Windows 11 x64" />
+                               Foreground="{DynamicResource SubtleTextBrush}"
+                               Text="v1.1.0 · Windows 11 x64" />
                     <TextBlock Margin="0,3,0,0"
                                FontSize="11"
-                               Foreground="{StaticResource SubtleTextBrush}"
+                               Foreground="{DynamicResource SubtleTextBrush}"
                                Text="纯 HTTP · 无浏览器依赖" />
                 </StackPanel>
             </Grid>
@@ -205,14 +205,14 @@
                            Text="下载飞书妙记字幕" />
                 <TextBlock Margin="0,6,0,0"
                            FontSize="14"
-                           Foreground="{StaticResource MutedTextBrush}"
+                           Foreground="{DynamicResource MutedTextBrush}"
                            Text="从分享链接生成时间轴准确的 SRT 字幕文件" />
             </StackPanel>
 
             <Border Grid.Row="1"
                     Padding="24,19"
-                    Background="{StaticResource CardBrush}"
-                    BorderBrush="{StaticResource BorderBrush}"
+                    Background="{DynamicResource CardBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
                     BorderThickness="1"
                     CornerRadius="7">
                 <Grid>
@@ -274,7 +274,7 @@
                         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock VerticalAlignment="Center"
                                        FontSize="13"
-                                       Foreground="{StaticResource MutedTextBrush}"
+                                       Foreground="{DynamicResource MutedTextBrush}"
                                        Text="每行" />
                             <TextBox x:Name="MaxCharactersTextBox"
                                      Width="54"
@@ -286,7 +286,7 @@
                                      Text="22" />
                             <TextBlock VerticalAlignment="Center"
                                        FontSize="13"
-                                       Foreground="{StaticResource MutedTextBrush}"
+                                       Foreground="{DynamicResource MutedTextBrush}"
                                        Text="字 · 最长" />
                             <TextBox x:Name="MaxDurationTextBox"
                                      Width="68"
@@ -298,7 +298,7 @@
                                      Text="2500" />
                             <TextBlock VerticalAlignment="Center"
                                        FontSize="13"
-                                       Foreground="{StaticResource MutedTextBrush}"
+                                       Foreground="{DynamicResource MutedTextBrush}"
                                        Text="毫秒" />
                         </StackPanel>
                     </Grid>
@@ -333,8 +333,8 @@
             </Grid>
 
             <Border Grid.Row="3"
-                    Background="{StaticResource CardBrush}"
-                    BorderBrush="{StaticResource BorderBrush}"
+                    Background="{DynamicResource CardBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
                     BorderThickness="1"
                     CornerRadius="7">
                 <Grid Margin="18,14,18,16">
@@ -348,7 +348,7 @@
                         <TextBlock x:Name="LogStateText"
                                    HorizontalAlignment="Right"
                                    FontSize="11"
-                                   Foreground="{StaticResource MutedTextBrush}"
+                                   Foreground="{DynamicResource MutedTextBrush}"
                                    Text="等待开始" />
                     </Grid>
                     <ProgressBar x:Name="ProgressBar"
@@ -364,10 +364,10 @@
                              IsReadOnly="True"
                              AcceptsReturn="True"
                              BorderThickness="0"
-                             Background="#FBFBFB"
+                             Background="{DynamicResource LogBackgroundBrush}"
                              FontFamily="Cascadia Mono, Consolas, Microsoft YaHei UI"
                              FontSize="12"
-                             Foreground="#303030"
+                             Foreground="{DynamicResource LogTextBrush}"
                              HorizontalScrollBarVisibility="Disabled"
                              VerticalScrollBarVisibility="Auto"
                              TextWrapping="Wrap" />

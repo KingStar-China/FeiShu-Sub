@@ -11,7 +11,14 @@ namespace FeishuMinutes
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             DispatcherUnhandledException += OnDispatcherUnhandledException;
+            ThemeManager.Initialize();
             base.OnStartup(e);
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            ThemeManager.Shutdown();
+            base.OnExit(e);
         }
 
         private static void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
