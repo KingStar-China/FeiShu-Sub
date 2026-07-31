@@ -12,7 +12,7 @@
 
 ## 使用
 
-从 [GitHub Releases](https://github.com/KingStar-China/FeiShu-Sub/releases/latest) 下载 Windows 11 x64 ZIP，解压后双击 `妙记字幕下载器.exe`。
+从 [GitHub Releases](https://github.com/KingStar-China/FeiShu-Sub/releases/latest) 下载并双击 `妙记字幕下载器.exe`。
 
 默认将字幕保存到 EXE 同目录下的 `minutes/`。SRT 直接写入所选保存位置，不再额外建立 token 子目录；如果该目录中已有 `transcript.txt`，程序还会生成带说话人前缀的 `_speaker.srt`。
 
@@ -30,14 +30,14 @@
 powershell -ExecutionPolicy Bypass -File .\build_release.ps1
 ```
 
-构建脚本会生成版本目录、ZIP 和 SHA-256，并在成功后删除临时参考程序集和 `bin/obj`。
+构建脚本只生成 `release/妙记字幕下载器.exe`，在控制台显示 SHA-256，并在成功后删除临时参考程序集和 `bin/obj`。重复构建不会删除 `release/minutes` 中的字幕。
 
 ## 项目结构
 
 ```text
 src/FeishuMinutes/   WPF 界面与纯 HTTP 字幕核心
 minutes/             已下载字幕
-release/             可分发 EXE 与 ZIP
+release/             单个可分发 EXE
 build_release.ps1    可复现发布构建
 ```
 
