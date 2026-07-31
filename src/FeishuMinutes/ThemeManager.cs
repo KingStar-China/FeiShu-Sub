@@ -6,6 +6,13 @@ using Microsoft.Win32;
 
 namespace FeishuMinutes
 {
+    internal enum ThemeMode
+    {
+        System,
+        Light,
+        Dark
+    }
+
     internal static class ThemeManager
     {
         private const string PersonalizeKey =
@@ -15,6 +22,7 @@ namespace FeishuMinutes
         private static bool _hasAppliedTheme;
 
         public static bool IsDark { get; private set; }
+        public static ThemeMode CurrentMode { get; private set; } = ThemeMode.System;
 
         public static event EventHandler ThemeChanged;
 
@@ -41,6 +49,40 @@ namespace FeishuMinutes
             _initialized = false;
         }
 
+        public static void CycleMode()
+        {
+            switch (CurrentMode)
+            {
+                case ThemeMode.System:
+                    SetMode(ThemeMode.Light);
+                    break;
+                case ThemeMode.Light:
+                    SetMode(ThemeMode.Dark);
+                    break;
+                default:
+                    SetMode(ThemeMode.System);
+                    break;
+            }
+        }
+
+        public static void SetMode(ThemeMode mode)
+        {
+            if (CurrentMode == mode)
+            {
+                return;
+            }
+
+            CurrentMode = mode;
+            bool dark = mode == ThemeMode.System ? ReadSystemDarkMode() : mode == ThemeMode.Dark;
+            if (_hasAppliedTheme && IsDark == dark)
+            {
+                ThemeChanged?.Invoke(null, EventArgs.Empty);
+                return;
+            }
+
+            ApplyTheme(dark);
+        }
+
         private static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             Application application = Application.Current;
@@ -62,7 +104,10 @@ namespace FeishuMinutes
 
         private static void ApplySystemTheme()
         {
-            ApplyTheme(ReadSystemDarkMode());
+            if (CurrentMode == ThemeMode.System)
+            {
+                ApplyTheme(ReadSystemDarkMode());
+            }
         }
 
         private static bool ReadSystemDarkMode()
@@ -112,17 +157,21 @@ namespace FeishuMinutes
                 SetBrush(resources, "MutedTextBrush", "#C8C8C8");
                 SetBrush(resources, "SubtleTextBrush", "#A0A0A0");
                 SetBrush(resources, "LogTextBrush", "#E8E8E8");
-                SetBrush(resources, "AccentBrush", "#60CDFF");
-                SetBrush(resources, "AccentHoverBrush", "#72D5FF");
-                SetBrush(resources, "AccentPressedBrush", "#4CC2F1");
-                SetBrush(resources, "AccentForegroundBrush", "#101010");
+                SetBrush(resources, "AccentBrush", "#0F6CBD");
+                SetBrush(resources, "AccentHoverBrush", "#115EA3");
+                SetBrush(resources, "AccentPressedBrush", "#0C3B5E");
+                SetBrush(resources, "AccentForegroundBrush", "#FFFFFF");
+                SetBrush(resources, "AccentTextBrush", "#75B6E7");
                 SetBrush(resources, "SuccessBrush", "#6CCB5F");
                 SetBrush(resources, "WarningBrush", "#F9A825");
                 SetBrush(resources, "DangerBrush", "#FF99A4");
-                SetBrush(resources, "StatusCardBrush", "#243442");
+                SetBrush(resources, "StatusCardBrush", "#213444");
                 SetBrush(resources, "PendingBadgeBrush", "#3A3A3A");
-                SetBrush(resources, "ActiveBadgeBrush", "#20465A");
+                SetBrush(resources, "ActiveBadgeBrush", "#17324A");
                 SetBrush(resources, "DoneBadgeBrush", "#183F2A");
+                SetBrush(resources, "MenuBackgroundBrush", "#2C2C2C");
+                SetBrush(resources, "MenuBorderBrush", "#484848");
+                SetBrush(resources, "MenuHoverBrush", "#3A3A3A");
             }
             else
             {
@@ -141,10 +190,11 @@ namespace FeishuMinutes
                 SetBrush(resources, "MutedTextBrush", "#606060");
                 SetBrush(resources, "SubtleTextBrush", "#858585");
                 SetBrush(resources, "LogTextBrush", "#303030");
-                SetBrush(resources, "AccentBrush", "#0067C0");
-                SetBrush(resources, "AccentHoverBrush", "#1975C5");
-                SetBrush(resources, "AccentPressedBrush", "#005A9E");
+                SetBrush(resources, "AccentBrush", "#0F6CBD");
+                SetBrush(resources, "AccentHoverBrush", "#115EA3");
+                SetBrush(resources, "AccentPressedBrush", "#0C3B5E");
                 SetBrush(resources, "AccentForegroundBrush", "#FFFFFF");
+                SetBrush(resources, "AccentTextBrush", "#0F6CBD");
                 SetBrush(resources, "SuccessBrush", "#0F7B0F");
                 SetBrush(resources, "WarningBrush", "#9D5D00");
                 SetBrush(resources, "DangerBrush", "#C42B1C");
@@ -152,6 +202,9 @@ namespace FeishuMinutes
                 SetBrush(resources, "PendingBadgeBrush", "#E9E9E9");
                 SetBrush(resources, "ActiveBadgeBrush", "#DCECF8");
                 SetBrush(resources, "DoneBadgeBrush", "#DDF2DD");
+                SetBrush(resources, "MenuBackgroundBrush", "#FFFFFF");
+                SetBrush(resources, "MenuBorderBrush", "#D1D1D1");
+                SetBrush(resources, "MenuHoverBrush", "#F0F0F0");
             }
 
             _hasAppliedTheme = true;

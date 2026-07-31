@@ -26,6 +26,7 @@ namespace FeishuMinutes
             ThemeManager.ThemeChanged += ThemeManager_ThemeChanged;
             OutputTextBox.Text = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "minutes");
             AppendLog("准备就绪。请粘贴飞书妙记分享链接。");
+            UpdateThemeButtonText();
             UrlTextBox.Focus();
         }
 
@@ -37,6 +38,26 @@ namespace FeishuMinutes
         private void ThemeManager_ThemeChanged(object sender, EventArgs e)
         {
             ApplyWindowChrome();
+            UpdateThemeButtonText();
+        }
+
+        private void ThemeButton_Click(object sender, RoutedEventArgs e)
+        {
+            ThemeManager.CycleMode();
+        }
+
+        private void UpdateThemeButtonText()
+        {
+            if (ThemeManager.CurrentMode == ThemeMode.System)
+            {
+                ThemeButtonText.Text = "主题：系统 · " + (ThemeManager.IsDark ? "深色" : "浅色");
+            }
+            else
+            {
+                ThemeButtonText.Text = ThemeManager.CurrentMode == ThemeMode.Dark
+                    ? "主题：深色"
+                    : "主题：浅色";
+            }
         }
 
         private void ApplyWindowChrome()
@@ -184,7 +205,7 @@ namespace FeishuMinutes
             SetRunning(true);
             ClearLog();
             AppendLog("正在启动原生 HTTP 下载核心...");
-            SetStatus("正在连接妙记", "建立匿名分享会话", "AccentBrush");
+            SetStatus("正在连接妙记", "建立匿名分享会话", "AccentTextBrush");
             SetStep(1);
 
             try
@@ -233,7 +254,7 @@ namespace FeishuMinutes
 
         private void OnDownloadProgress(DownloadProgress update)
         {
-            SetStatus(update.Status, update.Detail, update.Step >= 3 ? "SuccessBrush" : "AccentBrush");
+            SetStatus(update.Status, update.Detail, update.Step >= 3 ? "SuccessBrush" : "AccentTextBrush");
             SetStep(update.Step);
             if (!string.IsNullOrWhiteSpace(update.LogLine))
             {
@@ -295,7 +316,7 @@ namespace FeishuMinutes
                 ProgressBar.Value = 0;
                 ProgressBar.IsIndeterminate = true;
                 LogStateText.Text = "运行中";
-                LogStateText.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "AccentBrush");
+                LogStateText.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "AccentTextBrush");
             }
         }
 
@@ -324,7 +345,7 @@ namespace FeishuMinutes
             else if (step == activeStep)
             {
                 badge.SetResourceReference(System.Windows.Controls.Border.BackgroundProperty, "ActiveBadgeBrush");
-                text.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "AccentBrush");
+                text.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "AccentTextBrush");
                 text.FontWeight = FontWeights.SemiBold;
             }
             else

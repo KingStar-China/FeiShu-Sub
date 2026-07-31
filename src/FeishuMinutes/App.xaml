@@ -19,10 +19,11 @@
         <SolidColorBrush x:Key="MutedTextBrush" Color="#606060" />
         <SolidColorBrush x:Key="SubtleTextBrush" Color="#858585" />
         <SolidColorBrush x:Key="LogTextBrush" Color="#303030" />
-        <SolidColorBrush x:Key="AccentBrush" Color="#0067C0" />
-        <SolidColorBrush x:Key="AccentHoverBrush" Color="#1975C5" />
-        <SolidColorBrush x:Key="AccentPressedBrush" Color="#005A9E" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#0F6CBD" />
+        <SolidColorBrush x:Key="AccentHoverBrush" Color="#115EA3" />
+        <SolidColorBrush x:Key="AccentPressedBrush" Color="#0C3B5E" />
         <SolidColorBrush x:Key="AccentForegroundBrush" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="AccentTextBrush" Color="#0F6CBD" />
         <SolidColorBrush x:Key="SuccessBrush" Color="#0F7B0F" />
         <SolidColorBrush x:Key="WarningBrush" Color="#9D5D00" />
         <SolidColorBrush x:Key="DangerBrush" Color="#C42B1C" />
@@ -30,6 +31,115 @@
         <SolidColorBrush x:Key="PendingBadgeBrush" Color="#E9E9E9" />
         <SolidColorBrush x:Key="ActiveBadgeBrush" Color="#DCECF8" />
         <SolidColorBrush x:Key="DoneBadgeBrush" Color="#DDF2DD" />
+        <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="MenuBorderBrush" Color="#D1D1D1" />
+        <SolidColorBrush x:Key="MenuHoverBrush" Color="#F0F0F0" />
+
+        <Style TargetType="{x:Type ContextMenu}">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="HasDropShadow" Value="True" />
+            <Setter Property="Background" Value="{DynamicResource MenuBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource MenuBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ContextMenu}">
+                        <Border Padding="4"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                SnapsToDevicePixels="True">
+                            <StackPanel IsItemsHost="True"
+                                        KeyboardNavigation.DirectionalNavigation="Cycle" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type MenuItem}">
+            <Setter Property="MinWidth" Value="190" />
+            <Setter Property="MinHeight" Value="30" />
+            <Setter Property="Padding" Value="10,6" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type MenuItem}">
+                        <Border x:Name="ItemBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="4">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter VerticalAlignment="Center"
+                                                  ContentSource="Header"
+                                                  RecognizesAccessKey="True" />
+                                <TextBlock Grid.Column="1"
+                                           Margin="24,0,0,0"
+                                           VerticalAlignment="Center"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource MutedTextBrush}"
+                                           Text="{TemplateBinding InputGestureText}" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource MenuHoverBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Separator}">
+            <Setter Property="Margin" Value="8,4" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Separator}">
+                        <Border Height="1" Background="{DynamicResource MenuBorderBrush}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ContextMenu x:Key="TextBoxContextMenu" x:Shared="False">
+            <MenuItem Header="撤销"
+                      Command="{x:Static ApplicationCommands.Undo}"
+                      CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                      InputGestureText="Ctrl+Z" />
+            <Separator />
+            <MenuItem Header="剪切"
+                      Command="{x:Static ApplicationCommands.Cut}"
+                      CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                      InputGestureText="Ctrl+X" />
+            <MenuItem Header="复制"
+                      Command="{x:Static ApplicationCommands.Copy}"
+                      CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                      InputGestureText="Ctrl+C" />
+            <MenuItem Header="粘贴"
+                      Command="{x:Static ApplicationCommands.Paste}"
+                      CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                      InputGestureText="Ctrl+V" />
+            <MenuItem Header="删除"
+                      Command="{x:Static ApplicationCommands.Delete}"
+                      CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                      InputGestureText="Del" />
+            <Separator />
+            <MenuItem Header="全选"
+                      Command="{x:Static ApplicationCommands.SelectAll}"
+                      CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                      InputGestureText="Ctrl+A" />
+        </ContextMenu>
 
         <Style TargetType="{x:Type Window}">
             <Setter Property="FontFamily" Value="Segoe UI Variable Text, Microsoft YaHei UI" />
@@ -52,6 +162,7 @@
             <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderBrush}" />
             <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="ContextMenu" Value="{StaticResource TextBoxContextMenu}" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -68,7 +179,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
+                                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource AccentTextBrush}" />
                                 <Setter TargetName="OuterBorder" Property="BorderThickness" Value="1,1,1,2" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">

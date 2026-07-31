@@ -81,7 +81,7 @@
                                        VerticalAlignment="Center"
                                        FontSize="12"
                                        FontWeight="SemiBold"
-                                       Foreground="{DynamicResource AccentBrush}"
+                                       Foreground="{DynamicResource AccentTextBrush}"
                                        Text="1" />
                         </Border>
                         <TextBlock x:Name="Step1Text"
@@ -89,7 +89,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="14"
                                    FontWeight="SemiBold"
-                                   Foreground="{DynamicResource AccentBrush}"
+                                   Foreground="{DynamicResource AccentTextBrush}"
                                    Text="粘贴妙记链接" />
                     </Grid>
                     <Grid Height="42">
@@ -162,7 +162,7 @@
                                  Margin="0,5,0,0"
                                  HorizontalAlignment="Left"
                                  VerticalAlignment="Top"
-                                 Fill="{DynamicResource AccentBrush}" />
+                                 Fill="{DynamicResource AccentTextBrush}" />
                         <StackPanel Grid.Column="1">
                             <TextBlock x:Name="StatusTitle"
                                        FontSize="13"
@@ -181,7 +181,7 @@
                 <StackPanel Grid.Row="5" Margin="4,0,0,0">
                     <TextBlock FontSize="11"
                                Foreground="{DynamicResource SubtleTextBrush}"
-                               Text="v1.1.1 · Windows 11 x64" />
+                               Text="v1.2.0 · Windows 11 x64" />
                     <TextBlock Margin="0,3,0,0"
                                FontSize="11"
                                Foreground="{DynamicResource SubtleTextBrush}"
@@ -198,16 +198,35 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Margin="2,0,0,21">
-                <TextBlock FontFamily="Segoe UI Variable Display, Microsoft YaHei UI"
-                           FontSize="27"
-                           FontWeight="SemiBold"
-                           Text="下载飞书妙记字幕" />
-                <TextBlock Margin="0,6,0,0"
-                           FontSize="14"
-                           Foreground="{DynamicResource MutedTextBrush}"
-                           Text="从分享链接生成时间轴准确的 SRT 字幕文件" />
-            </StackPanel>
+            <Grid Grid.Row="0" Margin="2,0,0,21">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                    <TextBlock FontFamily="Segoe UI Variable Display, Microsoft YaHei UI"
+                               FontSize="27"
+                               FontWeight="SemiBold"
+                               Text="下载飞书妙记字幕" />
+                    <TextBlock Margin="0,6,0,0"
+                               FontSize="14"
+                               Foreground="{DynamicResource MutedTextBrush}"
+                               Text="从分享链接生成时间轴准确的 SRT 字幕文件" />
+                </StackPanel>
+                <Button x:Name="ThemeButton"
+                        Grid.Column="1"
+                        Height="34"
+                        MinWidth="132"
+                        Padding="12,0"
+                        VerticalAlignment="Top"
+                        Click="ThemeButton_Click"
+                        Style="{StaticResource SecondaryButton}"
+                        ToolTip="点击切换：跟随系统 → 浅色 → 深色">
+                    <TextBlock x:Name="ThemeButtonText"
+                               FontSize="12"
+                               Text="主题：跟随系统" />
+                </Button>
+            </Grid>
 
             <Border Grid.Row="1"
                     Padding="24,19"
@@ -370,6 +389,7 @@
                              FontFamily="Cascadia Mono, Consolas, Microsoft YaHei UI"
                              FontSize="12"
                              Foreground="{DynamicResource LogTextBrush}"
+                             ContextMenu="{StaticResource TextBoxContextMenu}"
                              HorizontalScrollBarVisibility="Disabled"
                              VerticalScrollBarVisibility="Auto"
                              TextWrapping="Wrap" />
