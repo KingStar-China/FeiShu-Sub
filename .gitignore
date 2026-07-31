@@ -1,0 +1,9 @@
+**/bin/
+**/obj/
+.native-build/
+.native-ref-*/
+*.user
+*.suo
+/release/
+/minutes/*
+!/minutes/.gitkeep
